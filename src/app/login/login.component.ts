@@ -18,4 +18,8 @@ export class LoginComponent implements OnInit {
 
   }
 
+  login(loginForm, ev) {
+    console.log(loginForm)
+  }
+
 }
