@@ -8,7 +8,8 @@
     >
       <mat-form-field>
         <input
-          ngModel
+          [ngModelOptions]="{ name: 'email', standalone: false }"
+          [(ngModel)]="val.email"
           #email="ngModel"
           matInput
           email
@@ -16,7 +17,6 @@
           minlength="3"
           maxlength="20"
           type="email"
-          name="email"
           placeholder="Email"
         />
         <mat-error *ngIf="email.errors?.required">
@@ -33,24 +33,37 @@
 
       <mat-form-field>
         <input
-          ngModel
           matInput
+          [(ngModel)]="val.password"
           #password="ngModel"
           type="password"
           name="password"
           minlength="3"
           maxlength="20"
           required
+          passwordStrength
           placeholder="Password"
         />
-        <mat-error *ngIf="password.errors?.required">
-          The password is mandatory
-        </mat-error>
-        <mat-error *ngIf="password.errors?.minlength as error">
-          The min len is {{ error.requiredLength }} but it has
-          {{ error.actualLength }}
-        </mat-error>
       </mat-form-field>
+
+      <ng-container
+        *ngIf="
+          password.errors
+            | onlyOneError
+              : ['required', 'minlength', 'passwordStrength'] as error
+        "
+      >
+        <div class="field-message" *ngIf="error?.required">
+          The password is mandatory
+        </div>
+        <div class="field-message" *ngIf="error?.passwordStrength">
+          You should use upperCase & lowerCase & numeric chars
+        </div>
+        <div class="field-message" *ngIf="error?.minlength as details">
+          The min len is {{ details.requiredLength }} but it has
+          {{ details.actualLength }}
+        </div>
+      </ng-container>
 
       <button
         type="submit"
