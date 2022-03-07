@@ -1,27 +1,57 @@
 <mat-card class="login-page">
   <mat-card-title>Login (Reactive)</mat-card-title>
   <mat-card-content>
-
-    <form class="login-form data-form">
-
+    <form [formGroup]="form" class="login-form data-form">
       <mat-form-field>
+        <input
+          formControlName="email"
+          matInput
+          type="email"
+          name="email"
+          placeholder="Email"
+        />
 
-        <input matInput type="email" name="email"
-               placeholder="Email">
-
+        <mat-error *ngIf="email.errors?.required">
+          The email is mandatory
+        </mat-error>
+        <mat-error *ngIf="email.errors?.email">
+          This is not valid email
+        </mat-error>
+        <mat-error *ngIf="email.errors?.minlength as error">
+          The min len is {{ error.requiredLength }} but it has
+          {{ error.actualLength }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-
-        <input matInput type="password" placeholder="Password">
-
+        <input
+          matInput
+          formControlName="password"
+          type="password"
+          placeholder="Password"
+        />
       </mat-form-field>
 
-      <button mat-raised-button color="primary">
-        Login
-      </button>
+      <ng-container
+        *ngIf="
+          password.touched && password.errors
+            | onlyOneError
+              : ['required', 'minlength', 'passwordStrength'] as error
+        "
+      >
+        <div class="field-message" *ngIf="error?.required">
+          The password is mandatory
+        </div>
+        <div class="field-message" *ngIf="error?.passwordStrength">
+          You should use upperCase & lowerCase & numeric chars
+        </div>
+        <div class="field-message" *ngIf="error?.minlength as details">
+          The min len is {{ details.requiredLength }} but it has
+          {{ details.actualLength }}
+        </div>
+      </ng-container>
 
+      <button mat-raised-button color="primary">Login</button>
     </form>
-
   </mat-card-content>
 </mat-card>
