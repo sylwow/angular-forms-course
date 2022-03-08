@@ -16,6 +16,17 @@
   </mat-form-field>
 
   <mat-form-field>
+    <mat-select formControlName="category">
+      <mat-option
+        *ngFor="let category of coursesCategories$ | async"
+        [value]="category.code"
+      >
+        {{ category.description }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
     <input
       formControlName="releasedAt"
       type="text"
@@ -30,5 +41,18 @@
     ></mat-datepicker-toggle>
 
     <mat-datepicker #releaseDatePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-checkbox color="primary" formControlName="downloadsAllowed">
+    Downloads allowed?
+  </mat-checkbox>
+
+  <mat-form-field>
+    <textarea
+      formControlName="longDescription"
+      matInput
+      placeholder="description"
+      appearance="outline"
+    ></textarea>
   </mat-form-field>
 </div>
