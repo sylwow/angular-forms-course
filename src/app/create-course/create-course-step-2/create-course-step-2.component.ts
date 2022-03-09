@@ -15,15 +15,16 @@ export class CreateCourseStep2Component implements OnInit {
     price: [null,
       [Validators.required, Validators.min(1), Validators.max(9999), Validators.pattern("[0-9]+")]
     ],
+    thumbnail: null,
     promoStartAt: null,
     promoEndAt: null
   }, {
-    validators: [createDateRangeValidator('promoStartAt', 'promoEndAt')],
-    updateOn: 'blur'
+    validators: [createDateRangeValidator('promoStartAt', 'promoEndAt')]
   });
 
   constructor(private fb: FormBuilder) {
     this.form.valueChanges.subscribe(val => {
+      console.log(val);
       const price = this.form.controls['price'];
       if (val.courseType === 'free' && price.enabled) {
         price.disable({ emitEvent: false });
