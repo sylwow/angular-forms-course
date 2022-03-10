@@ -17,7 +17,7 @@ interface CourseCategory {
 export class CreateCourseStep1Component implements OnInit {
 
   form = this.fb.group({
-    address: [null, Validators.required],
+    //address: [null, Validators.required],
     title: [
       '123123123123',
       {
